@@ -27,13 +27,28 @@ def match_image(parent_image, child_image):
         print(rms)
         if RMS_THRESHOLD > rms: # add matches to table
             print(f"{kwargs['child']} is subset of {kwargs['parent']}")
+
 def main():
     kwargs = OptParser.parseopts()
+    directory = Image.open(kwargs['directory'])
     parent_image = Image.open(kwargs['parent'])
     child_image = Image.open(kwargs['child'])
     print(parent_image.size)
     print(child_image.size)
     match_image(parent_image, child_image)
+
+    # 
+    # if parent and child image is givin
+        # match parent and child
+    # elif parent and directory is given
+        # for every pic in directory
+            # match parent and every pic
+    # elif child and directory is givin
+        # for every pic in directory
+            # match every pic and child
+    # elif directory is givin
+        # for every pic combination in directory
+            # match every combination
 
 
 
