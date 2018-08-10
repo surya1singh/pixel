@@ -1,3 +1,4 @@
+import itertools as it
 from math import sqrt
 import numpy as np
 from option_parser import OptParser
@@ -35,20 +36,28 @@ def main():
     child_image = Image.open(kwargs['child'])
     print(parent_image.size)
     print(child_image.size)
-    match_image(parent_image, child_image)
 
-    # 
-    # if parent and child image is givin
-        # match parent and child
-    # elif parent and directory is given
-        # for every pic in directory
-            # match parent and every pic
-    # elif child and directory is givin
-        # for every pic in directory
-            # match every pic and child
-    # elif directory is givin
-        # for every pic combination in directory
-            # match every combination
+    if parent_image and not os.path.exists(parent_image):
+        print(f'{parent_image} does not exists')
+    if child_image and not os.path.exists(child_image):
+        print(f'{child_image} does not exists')
+    if directory and not os.path.isdir(directory):
+        print(f'{directory} does not exists')
+
+    if os.path.exists(parent_image) and os.path.exists(child_image):
+        match_image(parent_image, child_image)
+    elif os.path.exists(parent_image) and os.path.isdir(directory):
+        for dir_child in os.listdir(directory):
+            match_image(parent_image, dir_child)
+    elif os.path.isdir(directory) and os.path.exists(child_image):
+        for dir_parent in os.listdir(directory):
+            match_image(dir_parent, child_image)
+    elif os.path.isdir(directory):
+        for x,y in it.combinations(os.listdir(directory),2):
+            if x == y:
+                continue
+            match_image(x, y)
+            match_image(y, x)
 
 
 
